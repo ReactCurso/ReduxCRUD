@@ -1,20 +1,32 @@
-import React, {useState} from "react";
-
+import React, { useState } from "react";
+import { crearNuevoProducto } from "../../actions/productoAction";
+import {useDispatch, useSelector} from 'react-redux'
 const NuevoProducto = () => {
+
+  //para llamar cosas del action
+  const dispatch = useDispatch();
+
+  const agregarProducto = () => dispatch(crearNuevoProducto(producto));
   const onSubmit = e => {
     e.preventDefault();
+
+    if(nombre.trim() === '' || precio<0){
+      return;
+    }
+
+    agregarProducto();
   };
-  const onChange = e=> {
-      setProducto({
-          ...producto,
-          [e.target.name] : e.target.value
-      })
-  }
+  const onChange = e => {
+    setProducto({
+      ...producto,
+      [e.target.name]: e.target.name !== 'precio' ?  e.target.value : Number(e.target.value)
+    });
+  };
   const [producto, setProducto] = useState({
-      nombre: '',
-      precio: 0
-  })
-  const {nombre, precio} = producto;
+    nombre: "",
+    precio: 0
+  });
+  const { nombre, precio } = producto;
   return (
     <div className="row justify-content-center">
       <div className="col-md-8">
@@ -46,10 +58,12 @@ const NuevoProducto = () => {
                   onChange={onChange}
                 />
               </div>
-              <button 
+              <button
                 type="submit"
                 className="btn btn-primary font-weight-bold text-uppercase d-block w-100"
-              >Agrear</button>
+              >
+                Agrear
+              </button>
             </form>
           </div>
         </div>

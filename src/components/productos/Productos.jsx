@@ -5,7 +5,7 @@ const Producto = () => {
         <Fragment>
             <h2 className="text-center my-5">Listado de productos</h2>
             <table className="table table-striped">
-                <thead classNmae="bg-primary table-dark">
+                <thead className="bg-primary table-dark">
                     <tr>
                         <th scope="col">Nombre</th>
                         <th scope="col">Precio</th>

@@ -1,0 +1,1 @@
+docker run -it -p 4000:80 -v /home/adrianradice/React/crudredux/db.json:/data/db.json clue/json-server
