@@ -1,21 +1,40 @@
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { editarProducto } from "../../actions/productoAction";
+import { useHistory } from "react-router-dom";
 
 const EditarProducto = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const editar = producto => dispatch(editarProducto(producto));
+  const productoOriginal = useSelector(
+    state => state.productos.productoSeleccionado
+  );
+
   const onSubmit = e => {
     e.preventDefault();
+    editar(producto);
+    history.push("/");
   };
-  const onChange = e=> {
-      setProducto({
-          ...producto,
-          [e.target.name] : e.target.value
-      })
-  }
+
+  const onChange = e => {
+    setProducto({
+      ...producto,
+      [e.target.name]: e.target.value
+    });
+  };
+
   const [producto, setProducto] = useState({
-      nombre: '',
-      precio: 0
-  })
-  const {nombre, precio} = producto;
-  return (
+    nombre: "",
+    precio: 0
+  });
+
+  useEffect(() => {
+    setProducto(productoOriginal);
+    console.log(productoOriginal);
+  }, [productoOriginal]);
+
+  return !producto ? null : (
     <div className="row justify-content-center">
       <div className="col-md-8">
         <div className="card">
@@ -31,7 +50,7 @@ const EditarProducto = () => {
                   className="form-control"
                   placeholder="Nombre Producto"
                   name="nombre"
-                  value={nombre}
+                  value={producto.nombre}
                   onChange={onChange}
                 />
               </div>
@@ -42,14 +61,16 @@ const EditarProducto = () => {
                   className="form-control"
                   placeholder="Precio Producto"
                   name="precio"
-                  value={precio}
+                  value={producto.precio}
                   onChange={onChange}
                 />
               </div>
-              <button 
+              <button
                 type="submit"
                 className="btn btn-primary font-weight-bold text-uppercase d-block w-100"
-              >Guardar Cambios</button>
+              >
+                Guardar Cambios
+              </button>
             </form>
           </div>
         </div>

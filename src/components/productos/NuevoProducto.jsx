@@ -1,25 +1,31 @@
 import React, { useState } from "react";
 import { crearNuevoProducto } from "../../actions/productoAction";
-import {useDispatch, useSelector} from 'react-redux'
-const NuevoProducto = () => {
-
+import { useDispatch, useSelector } from "react-redux";
+const NuevoProducto = ({ history }) => {
   //para llamar cosas del action
   const dispatch = useDispatch();
-
   const agregarProducto = () => dispatch(crearNuevoProducto(producto));
+
+  const cargando = useSelector(state => state.productos.loading);
+  const error = useSelector(state => state.productos.error);
+
   const onSubmit = e => {
     e.preventDefault();
 
-    if(nombre.trim() === '' || precio<0){
+    if (nombre.trim() === "" || precio < 0) {
       return;
     }
 
     agregarProducto();
+    history.push("/");
   };
+
+
   const onChange = e => {
     setProducto({
       ...producto,
-      [e.target.name]: e.target.name !== 'precio' ?  e.target.value : Number(e.target.value)
+      [e.target.name]:
+        e.target.name !== "precio" ? e.target.value : Number(e.target.value)
     });
   };
   const [producto, setProducto] = useState({
@@ -65,6 +71,10 @@ const NuevoProducto = () => {
                 Agrear
               </button>
             </form>
+            {cargando ? <p>Cargando</p> : null}
+            {error ? (
+              <p className="alert alert-danger p2 mt-4 text-center">error</p>
+            ) : null}
           </div>
         </div>
       </div>
